@@ -414,3 +414,26 @@ input:user-invalid + .error-msg, textarea:user-invalid + .error-msg { display: b
 @media (prefers-reduced-motion: reduce) {
   .top, .mobile-bottom { transition: none; }
 }
+
+/* Inquiry form: let grid tracks and native form controls shrink on narrow screens. */
+.inq { grid-template-columns: minmax(0, 1fr) 300px; }
+.inq > *, .inq-form > *, .inq-form .field, .inq-item > * { min-width: 0; }
+.inq-form { width: 100%; }
+.inq-form .field { grid-template-columns: minmax(0, 1fr); }
+.inq-form input, .inq-form textarea { display: block; width: 100%; min-width: 0; max-width: 100%; }
+.inq-form textarea { resize: vertical; }
+.inq-form label, .inq-items, .inq-success, .inq-form .note { overflow-wrap: anywhere; }
+.inq-item { gap: 12px; align-items: flex-start; }
+.inq-item > span:first-child { flex: 1; overflow-wrap: anywhere; }
+.inq-item > span:last-child { flex-shrink: 0; }
+@media (max-width: 960px) {
+  .inq { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .inq-form { padding: 16px; box-shadow: 4px 5px 0 var(--ink); }
+  .inq-form input, .inq-form textarea { font-size: 16px; }
+  .inq-item { flex-direction: column; gap: 4px; padding-block: 8px; border-bottom: 1px solid rgb(28 28 28 / .2); }
+  .inq-item > span:last-child { align-self: flex-end; font-weight: 700; }
+  .inq-form .product-cta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .inq-form .product-cta .btn { width: 100%; min-width: 0; white-space: normal; padding: 12px 10px; }
+  .inq-side { width: 100%; }
+  .inq-side .char { max-width: 100%; height: auto !important; max-height: 300px; }
+}
