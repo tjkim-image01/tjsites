@@ -1,0 +1,68 @@
+name: Deploy tjsites to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site001-bira/package-lock.json
+
+      - name: Build site001-bira
+        working-directory: site001-bira
+        env:
+          VITE_BASE: ./
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+        run: |
+          npm ci
+          npm run build
+          cp dist/index.html dist/404.html
+
+      - name: Assemble GitHub Pages artifact
+        run: |
+          mkdir -p _site/site001-bira
+          cp -R site001-bira/dist/* _site/site001-bira/
+          cat << 'EOF' > _site/index.html
+          <!doctype html>
+          <html lang="ko">
+          <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="refresh" content="0; url=./site001-bira/" />
+            <title>티제이 김 컬렉션</title>
+          </head>
+          <body>
+            <p><a href="./site001-bira/">삐라 상점 바로가기 →</a></p>
+          </body>
+          </html>
+          EOF
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
