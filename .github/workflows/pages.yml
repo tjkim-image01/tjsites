@@ -39,19 +39,7 @@ jobs:
         run: |
           mkdir -p _site/site001-bira
           cp -R site001-bira/dist/* _site/site001-bira/
-          cat << 'EOF' > _site/index.html
-          <!doctype html>
-          <html lang="ko">
-          <head>
-            <meta charset="utf-8" />
-            <meta http-equiv="refresh" content="0; url=./site001-bira/" />
-            <title>티제이 김 컬렉션</title>
-          </head>
-          <body>
-            <p><a href="./site001-bira/">삐라 상점 바로가기 →</a></p>
-          </body>
-          </html>
-          EOF
+          cp landing/index.html _site/index.html
 
       - uses: actions/upload-pages-artifact@v3
         with:

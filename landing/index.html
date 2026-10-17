@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>티제이 김 컬렉션 · 삐라 상점</title>
+  <script>
+    (function () {
+      var target = new URL('./site001-bira/', window.location.href);
+      target.search = window.location.search;
+      target.hash = window.location.hash || '#/';
+      window.location.replace(target.href);
+    }());
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=./site001-bira/" /></noscript>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #fff3dc; color: #1c1c1c; font-family: system-ui, sans-serif; }
+    main { max-width: 30rem; padding: 2rem; text-align: center; }
+    h1 { font-size: 1.6rem; }
+    p { line-height: 1.7; }
+    a { display: inline-block; background: #1c1c1c; color: #fff3dc; padding: 1rem 1.5rem; border-radius: .5rem; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>티제이 김 컬렉션</h1>
+    <p>삐라 상점으로 이동합니다.<br />자동으로 열리지 않으면 아래 버튼을 눌러 주세요.</p>
+    <a id="open-shop" href="./site001-bira/#/">삐라 상점 열기</a>
+  </main>
+  <script>
+    var link = document.getElementById('open-shop');
+    var destination = new URL(link.href);
+    destination.search = window.location.search;
+    destination.hash = window.location.hash || '#/';
+    link.href = destination.href;
+  </script>
+</body>
+</html>
