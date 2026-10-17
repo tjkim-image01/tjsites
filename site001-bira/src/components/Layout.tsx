@@ -5,9 +5,8 @@ import { useCart } from "../lib/cart";
 export function Layout({ children }: { children: React.ReactNode }) {
   const { count } = useCart();
   const { pathname } = useLocation();
-  const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
-  useEffect(() => { setOpen(false); setHidden(false); }, [pathname]);
+  useEffect(() => { setHidden(false); }, [pathname]);
   useEffect(() => {
     if (pathname !== "/") return;
     let previous = window.scrollY;
@@ -20,13 +19,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-  const hideChrome = hidden && !open;
+  const hideChrome = hidden;
   return (
     <>
       <header className={`top ${hideChrome ? "chrome-hidden" : ""}`}>
@@ -34,21 +27,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <span className="logo-chip">티제이 김 컬렉션</span>
           <span className="logo-title">삐라 상점</span>
         </Link>
-        <button type="button" className="menu-toggle" aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
-          aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(!open)}>
-          <span aria-hidden="true">{open ? "✕" : "☰"}</span>
-        </button>
-        <nav id="site-menu" aria-label="주 메뉴" className={`nav ${open ? "is-open" : ""}`}>
-          <NavLink to="/" end onClick={() => setOpen(false)}>홈</NavLink>
-          <NavLink to="/watch/S" onClick={() => setOpen(false)}>영상</NavLink>
-          <NavLink to="/shop" onClick={() => setOpen(false)}>상품</NavLink>
-          <NavLink to="/about" onClick={() => setOpen(false)}>소개</NavLink>
-          <NavLink to="/cart" className="cart-link" onClick={() => setOpen(false)}>
+        <a className="youtube-link" href="https://www.youtube.com/channel/UC-gAXUw8Au-q7WgW6ud_KbA"
+          target="_blank" rel="noopener noreferrer" aria-label="티제이 김 컬렉션 유튜브 채널 (새 창)" title="유튜브 채널">
+          <svg viewBox="0 0 32 24" width="32" height="24" aria-hidden="true" focusable="false">
+            <path fill="#FF0033" d="M31.3 3.8A4 4 0 0 0 28.5 1C26 .3 16 .3 16 .3S6 .3 3.5 1A4 4 0 0 0 .7 3.8C0 6.2 0 12 0 12s0 5.8.7 8.2A4 4 0 0 0 3.5 23c2.5.7 12.5.7 12.5.7s10 0 12.5-.7a4 4 0 0 0 2.8-2.8c.7-2.4.7-8.2.7-8.2s0-5.8-.7-8.2Z" />
+            <path fill="#FFF" d="m12.8 17.1 8.3-5.1-8.3-5.1Z" />
+          </svg>
+        </a>
+        <nav id="site-menu" aria-label="주 메뉴" className="nav">
+          <NavLink to="/" end>홈</NavLink>
+          <NavLink to="/watch/S">영상</NavLink>
+          <NavLink to="/shop">상품</NavLink>
+          <NavLink to="/about">소개</NavLink>
+          <NavLink to="/cart" className="cart-link">
             담은 것 <b className="cart-count">{count}</b>
           </NavLink>
         </nav>
       </header>
-      {open && <button className="menu-backdrop" aria-label="메뉴 닫기" onClick={() => setOpen(false)} />}
       <main>{children}</main>
       <footer className="foot">
         <div className="foot-in">

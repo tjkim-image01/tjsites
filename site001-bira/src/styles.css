@@ -335,7 +335,7 @@ input:user-invalid + .error-msg, textarea:user-invalid + .error-msg { display: b
 
 
 /* Mobile reading and shopping */
-.menu-toggle, .menu-backdrop, .mobile-bottom { display: none; }
+.youtube-link, .mobile-bottom { display: none; }
 .gallery, .product-info, .product-top > *, .pcard-body { min-width: 0; }
 .gallery-main { display: grid; place-items: center; width: 100%; }
 .gallery-main img { width: auto; height: auto; max-width: 100%; max-height: 70svh; }
@@ -348,11 +348,10 @@ input:user-invalid + .error-msg, textarea:user-invalid + .error-msg { display: b
   body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
   .top { justify-content: space-between; flex-wrap: nowrap; padding: 8px 16px; min-height: 60px; transition: transform .2s ease; }
   .top.chrome-hidden { transform: translateY(-110%); }
-  .menu-toggle { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; color: var(--cream); border: 2px solid var(--cream); border-radius: 8px; font-size: 26px; }
+  .youtube-link { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; border-radius: 8px; }
+  .youtube-link:hover, .youtube-link:focus-visible { background: rgb(255 255 255 / .12); outline: 2px solid var(--cream); }
   .top .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--ink); border-bottom: var(--bd); padding: 12px 16px 20px; gap: 8px; }
-  .top .nav.is-open { display: grid; }
   .top .nav a { padding: 12px 16px; min-height: 48px; }
-  .menu-backdrop { display: block; position: fixed; inset: 60px 0 0; z-index: 49; background: rgb(0 0 0 / .4); border: 0; }
   .mobile-bottom { display: flex; align-items: stretch; justify-content: space-around; position: fixed; bottom: 0; left: 0; right: 0; z-index: 48; background: var(--ink); color: var(--cream); padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); min-height: 60px; transition: transform .2s ease; border-top: 3px solid var(--yellow); }
   .mobile-bottom a { display: flex; align-items: center; justify-content: center; flex: 1; gap: 6px; font-size: 15px; font-weight: 700; min-height: 48px; }
   .mobile-bottom a.active { color: var(--yellow); }
