@@ -5,7 +5,7 @@ import { productByCode, thumb, useProducts } from "../lib/products";
 import { ProductCard } from "../components/ProductCard";
 import { Bubble, Char, Sfx } from "../components/Chars";
 
-export default function WatchPage() {
+function DesktopWatchPage() {
   useProducts(false);
   const { ep = "S" } = useParams();
   const [sp] = useSearchParams();
@@ -124,4 +124,77 @@ export default function WatchPage() {
       </div>
     </section>
   );
+}
+
+
+function FeedEpisode({ episode, startAt = 0 }: { episode: (typeof EPISODES)[number]; startAt?: number }) {
+  const video = useRef<HTMLVideoElement>(null);
+  const [active, setActive] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const items = episode.items.map(c => productByCode(c)).filter(p => p && p.visible !== false);
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setActive(entry.isIntersecting);
+      if (entry.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    }, { threshold: 0.65 });
+    observer.observe(v);
+    return () => { observer.disconnect(); v.pause(); };
+  }, []);
+  useEffect(() => {
+    const v = video.current;
+    if (!v || !active) return;
+    const onVisibility = () => { if (document.hidden) v.pause(); };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [active]);
+  return (
+    <article className="feed-episode" aria-label={`${episode.no}편 ${episode.title}`}>
+      <div className="feed-heading"><span className="ep-chip">{episode.no}편</span><h1>{episode.title}</h1></div>
+      <p className="feed-hook">{episode.hook}</p>
+      <div className={`feed-player ${episode.vertical ? "v" : "h"}`}>
+        <video ref={video} src={`videos/${episode.file}`} poster={`covers/${episode.cover}.jpg`}
+          controls playsInline muted={muted} preload="none"
+          onLoadedMetadata={() => { if (video.current && startAt > 0) video.current.currentTime = startAt; }}
+          onVolumeChange={ev => setMuted(ev.currentTarget.muted)} />
+        <button type="button" className="feed-sound" onClick={() => {
+          const v = video.current;
+          if (v) { v.muted = !v.muted; setMuted(v.muted); v.play().catch(() => {}); }
+        }}>{muted ? "소리 켜기" : "소리 끄기"}</button>
+      </div>
+      {episode.chapters && <div className="chapters feed-chapters">{episode.chapters.map(([seconds, title]) =>
+        <button type="button" className="chap" key={seconds} onClick={() => {
+          if (video.current) { video.current.currentTime = seconds; video.current.play().catch(() => {}); }
+        }}>{fmtSec(seconds)} {title}</button>)}</div>}
+      <section className="feed-products" aria-label={`${episode.no}편에 나온 상품`}>
+        <h2>이 영상에 나온 상품</h2>
+        <div className="side-list">{items.map((p, i) => p && <ProductCard key={p.code} p={p} i={i} compact />)}</div>
+      </section>
+    </article>
+  );
+}
+
+function MobileWatchPage() {
+  useProducts(false);
+  const { ep = "S" } = useParams();
+  const [sp] = useSearchParams();
+  const index = Math.max(0, EPISODES.findIndex(e => e.id === ep));
+  const episodes = [...EPISODES.slice(index), ...EPISODES.slice(0, index)];
+  return <section className="mobile-feed stage cream" key={ep}>
+    <p className="feed-intro">아래로 넘기며 영상과 상품을 함께 보세요.</p>
+    {episodes.map((e, i) => <FeedEpisode key={e.id} episode={e} startAt={i === 0 ? Number(sp.get("t")) || 0 : 0} />)}
+  </section>;
+}
+
+export default function WatchPage() {
+  const [mobile, setMobile] = useState(() => window.matchMedia("(max-width: 960px)").matches);
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 960px)");
+    const update = () => setMobile(query.matches);
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return mobile ? <MobileWatchPage /> : <DesktopWatchPage />;
 }

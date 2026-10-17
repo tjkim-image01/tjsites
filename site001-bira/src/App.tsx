@@ -13,7 +13,7 @@ import AboutPage from "./pages/AboutPage";
 function ScrollTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
   return null;
 }

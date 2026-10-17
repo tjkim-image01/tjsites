@@ -19,7 +19,7 @@ export function ProductCard({
   i?: number;
   compact?: boolean;
 }) {
-  const { add, has } = useCart();
+  const { add, remove, has } = useCart();
   const rot = ((i % 3) - 1) * 1.6;
   const sold = isSoldOut(p);
   const reserved = isReserved(p);
@@ -74,9 +74,10 @@ export function ProductCard({
             <button
               type="button"
               className={`btn-stamp ${has(p.code) ? "done" : ""}`}
-              onClick={() => add(p.code)}
+              aria-pressed={has(p.code)}
+              onClick={() => has(p.code) ? remove(p.code) : add(p.code)}
             >
-              {has(p.code) ? "담았음" : "담기"}
+              {has(p.code) ? "빼기" : "담기"}
             </button>
           )}
         </div>
