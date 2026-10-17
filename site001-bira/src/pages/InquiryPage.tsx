@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import { fmtPrice, productByCode, useProducts } from "../lib/products";
+import { productByCode, useProducts } from "../lib/products";
 import { submitCustomerInquiry } from "../lib/inventory";
 import { useCart } from "../lib/cart";
 import { Bubble, Char, Stamp } from "../components/Chars";
@@ -23,9 +23,6 @@ export default function InquiryPage() {
   const rows = Object.entries(cart)
     .map(([code, n]) => ({ p: productByCode(code), n }))
     .filter((r) => r.p);
-  const total = rows.reduce((a, r) => a + (r.p!.price_usd ?? 0) * r.n, 0);
-  const unknown = rows.some((r) => r.p!.price_usd == null);
-  const totalStr = `$${total.toLocaleString("en-US")}${unknown ? " + 문의" : ""}`;
 
   const body = [
     `[삐라 상점 구매 문의]`,
@@ -33,7 +30,7 @@ export default function InquiryPage() {
     `연락처: ${contact}`,
     ``,
     `문의 품목:`,
-    ...rows.map((r) => `- ${r.p!.code} ${r.p!.title} × ${r.n} (${fmtPrice(r.p!)})`),
+    ...rows.map((r) => `- ${r.p!.code} ${r.p!.title} × ${r.n}`),
     ``,
     `메모: ${memo}`,
   ].join("\n");
@@ -75,7 +72,7 @@ export default function InquiryPage() {
         contact,
         memo,
         items: rows.map((r) => ({ product: r.p!, count: r.n })),
-        totalUsd: totalStr,
+        totalUsd: "가격 문의",
       });
       setSubmittedInfo(res);
     } finally {
@@ -154,7 +151,7 @@ export default function InquiryPage() {
             </div>
 
             <div className="inq-items">
-              <b>문의 품목 {rows.length}건 ({totalStr})</b>
+              <b>문의 품목 {rows.length}건</b>
               {rows.length === 0 ? (
                 <div className="pcard-meta">
                   담은 것이 없어요. <Link to="/shop">상품</Link>에서 담아 오세요.
@@ -165,7 +162,6 @@ export default function InquiryPage() {
                     <span>
                       <code>{r.p!.code}</code> {r.p!.title} × {r.n}
                     </span>
-                    <span>{fmtPrice(r.p!)}</span>
                   </div>
                 ))
               )}

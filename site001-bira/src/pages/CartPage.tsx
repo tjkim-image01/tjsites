@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   STATUS_LABELS,
-  fmtPrice,
   isSoldOut,
   productByCode,
   thumb,
@@ -16,8 +15,6 @@ export default function CartPage() {
   const rows = Object.entries(cart)
     .map(([code, n]) => ({ p: productByCode(code), n }))
     .filter((r) => r.p);
-  const total = rows.reduce((a, r) => a + (r.p!.price_usd ?? 0) * r.n, 0);
-  const unknown = rows.some((r) => r.p!.price_usd == null);
 
   return (
     <section className="stage yellow band">
@@ -73,7 +70,6 @@ export default function CartPage() {
                         +
                       </button>
                     </div>
-                    <div className="price">{fmtPrice(p!)}</div>
                     <button
                       type="button"
                       className="x"
@@ -85,13 +81,6 @@ export default function CartPage() {
                   </div>
                 );
               })}
-            </div>
-            <div className="cart-total">
-              <span>합계 (표시 가격 기준)</span>
-              <b>
-                ${total.toLocaleString("en-US")}
-                {unknown ? " + 문의" : ""}
-              </b>
             </div>
             <div className="center">
               <Link to="/inquiry" className="btn big red">

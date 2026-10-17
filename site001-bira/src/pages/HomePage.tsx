@@ -1,3 +1,4 @@
+import { useSound, playWithSound } from "../lib/sound";
 import { Link } from "react-router-dom";
 import { EPISODES, fmtSec } from "../data/episodes";
 import { GROUPS, groupName, thumb, useProducts } from "../lib/products";
@@ -5,6 +6,7 @@ import { Bubble, Char, LeafRain, Sfx, Stamp } from "../components/Chars";
 import { ProductCard } from "../components/ProductCard";
 
 export default function HomePage() {
+  const { muted, setMuted } = useSound();
   const products = useProducts(false);
   const featured = products.filter((p) => p.featured);
   const rainSrcs = featured.map((p) => p.images[0]).filter(Boolean);
@@ -45,13 +47,15 @@ export default function HomePage() {
             src={`videos/${long.file}`}
             poster={`covers/${long.cover}.jpg`}
             autoPlay
-            muted
+            muted={muted}
+            onVolumeChange={ev => setMuted(ev.currentTarget.muted)}
+            onCanPlay={ev => { if (ev.currentTarget.paused) playWithSound(ev.currentTarget); }}
             loop
             playsInline
             controls
           />
           <Link to="/watch/long" className="hero-video-label">
-            롱폼 4분 — 소리 켜고 보기 →
+            롱폼 4분 — 이어서 보기 →
           </Link>
         </div>
       </section>

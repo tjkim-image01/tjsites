@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import {
   Product,
   STATUS_LABELS,
-  fmtPrice,
   isReserved,
   isSoldOut,
   thumb,
@@ -65,7 +64,6 @@ export function ProductCard({
           )}
         </div>
         <div className="pcard-row">
-          <span className="price">{fmtPrice(p)}</span>
           {sold ? (
             <span className="btn-stamp sold" aria-disabled="true">
               품절

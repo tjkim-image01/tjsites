@@ -1,3 +1,4 @@
+import { playWithSound, useSound } from "../lib/sound";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { EPISODES, episodeById, fmtSec } from "../data/episodes";
@@ -6,6 +7,7 @@ import { ProductCard } from "../components/ProductCard";
 import { Bubble, Char, Sfx } from "../components/Chars";
 
 function DesktopWatchPage() {
+  const { muted, setMuted } = useSound();
   useProducts(false);
   const { ep = "S" } = useParams();
   const [sp] = useSearchParams();
@@ -27,7 +29,7 @@ function DesktopWatchPage() {
     const at = Number(sp.get("t") || 0);
     const onLoaded = () => {
       if (at > 0) v.currentTime = at;
-      v.play().catch(() => {});
+      playWithSound(v);
     };
     v.addEventListener("loadedmetadata", onLoaded);
     v.load();
@@ -54,6 +56,8 @@ function DesktopWatchPage() {
             src={`videos/${e.file}`}
             poster={`covers/${e.cover}.jpg`}
             controls
+            muted={muted}
+            onVolumeChange={ev => setMuted(ev.currentTarget.muted)}
             playsInline
             onTimeUpdate={(ev) => setT(ev.currentTarget.currentTime)}
             onEnded={() => nav(`/watch/${next.id}`)}
@@ -76,7 +80,7 @@ function DesktopWatchPage() {
                   onClick={() => {
                     if (ref.current) {
                       ref.current.currentTime = s;
-                      ref.current.play();
+                      playWithSound(ref.current);
                     }
                   }}
                 >
@@ -130,15 +134,16 @@ function DesktopWatchPage() {
 function FeedEpisode({ episode, startAt = 0 }: { episode: (typeof EPISODES)[number]; startAt?: number }) {
   const video = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const { muted, setMuted } = useSound();
   const items = episode.items.map(c => productByCode(c)).filter(p => p && p.visible !== false);
   useEffect(() => {
     const v = video.current;
     if (!v) return;
     const observer = new IntersectionObserver(([entry]) => {
-      setActive(entry.isIntersecting);
-      if (entry.isIntersecting) v.play().catch(() => {});
-      else v.pause();
+      const visible = entry.isIntersecting && entry.intersectionRatio >= 0.65;
+      setActive(visible);
+      if (visible) playWithSound(v);
+      else { delete v.dataset.playBlocked; v.pause(); }
     }, { threshold: 0.65 });
     observer.observe(v);
     return () => { observer.disconnect(); v.pause(); };
@@ -159,14 +164,10 @@ function FeedEpisode({ episode, startAt = 0 }: { episode: (typeof EPISODES)[numb
           controls playsInline muted={muted} preload="none"
           onLoadedMetadata={() => { if (video.current && startAt > 0) video.current.currentTime = startAt; }}
           onVolumeChange={ev => setMuted(ev.currentTarget.muted)} />
-        <button type="button" className="feed-sound" onClick={() => {
-          const v = video.current;
-          if (v) { v.muted = !v.muted; setMuted(v.muted); v.play().catch(() => {}); }
-        }}>{muted ? "소리 켜기" : "소리 끄기"}</button>
       </div>
       {episode.chapters && <div className="chapters feed-chapters">{episode.chapters.map(([seconds, title]) =>
         <button type="button" className="chap" key={seconds} onClick={() => {
-          if (video.current) { video.current.currentTime = seconds; video.current.play().catch(() => {}); }
+          if (video.current) { video.current.currentTime = seconds; playWithSound(video.current); }
         }}>{fmtSec(seconds)} {title}</button>)}</div>}
       <section className="feed-products" aria-label={`${episode.no}편에 나온 상품`}>
         <h2>이 영상에 나온 상품</h2>

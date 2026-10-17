@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { episodesOfItem } from "../data/episodes";
 import {
   STATUS_LABELS,
-  fmtPrice,
   groupName,
   isReserved,
   isSoldOut,
@@ -120,7 +119,6 @@ export default function ProductPage() {
               <dt>번호</dt>
               <dd>{p.code}</dd>
             </dl>
-            <div className="price big">{fmtPrice(p)}</div>
             <div className="product-cta">
               {sold ? (
                 <button type="button" className="btn big ink" disabled>

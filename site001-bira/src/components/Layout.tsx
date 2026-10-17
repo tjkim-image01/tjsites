@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { SoundButton } from "./SoundButton";
+import { resumeBlockedVideo } from "../lib/sound";
 import { useCart } from "../lib/cart";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -19,6 +21,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
+  useEffect(() => {
+    document.addEventListener("click", resumeBlockedVideo);
+    document.addEventListener("keydown", resumeBlockedVideo);
+    return () => {
+      document.removeEventListener("click", resumeBlockedVideo);
+      document.removeEventListener("keydown", resumeBlockedVideo);
+    };
+  }, []);
   const hideChrome = hidden;
   return (
     <>
@@ -35,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </svg>
         </a>
         <nav id="site-menu" aria-label="주 메뉴" className="nav">
+          <SoundButton />
           <NavLink to="/" end>홈</NavLink>
           <NavLink to="/watch/S">영상</NavLink>
           <NavLink to="/shop">상품</NavLink>
@@ -52,6 +63,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
       <nav aria-label="모바일 빠른 메뉴" className={`mobile-bottom ${hideChrome ? "chrome-hidden" : ""}`}>
+        <SoundButton />
         <NavLink to="/" end>홈</NavLink><NavLink to="/watch/S">영상</NavLink>
         <NavLink to="/shop">상품</NavLink><NavLink to="/cart">담은 것 <b>{count}</b></NavLink>
       </nav>
