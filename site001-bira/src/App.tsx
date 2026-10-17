@@ -9,6 +9,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import InquiryPage from "./pages/InquiryPage";
 import AboutPage from "./pages/AboutPage";
+import AdminPage from "./pages/AdminPage";
 
 function ScrollTop() {
   const { pathname } = useLocation();
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/inquiry" element={<InquiryPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Layout>
