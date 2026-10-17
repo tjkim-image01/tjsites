@@ -168,13 +168,8 @@ export default function InquiryPage() {
             </div>
 
             {submittedInfo && (
-              <div className="inq-success">
-                <b>✓ 문의가 접수되었습니다! (접수번호: {submittedInfo.inquiryId})</b>
-                <div>
-                  {submittedInfo.syncedToSheet
-                    ? "Google 시트(삐라상점_문의)에 자동 기록되었습니다. 담당자가 확인 후 연락드립니다."
-                    : "관리자 문의함에 저장되었습니다. 빠른 확인을 위해 아래 메일 보내기 또는 내용 복사를 함께 이용해 주세요."}
-                </div>
+              <div className="inq-success" role="status">
+                담당자가 확인 후 연락드리겠습니다.
               </div>
             )}
 
@@ -194,7 +189,7 @@ export default function InquiryPage() {
               </button>
             </div>
             <p className="note">
-              '문의 바로 접수하기'를 누르면 관리자 시트에 기록됩니다. 메일로 직접 보내시려면 {TO}로 보내 주세요.
+              메일로 직접 보내시려면 {TO}로 보내 주세요.
             </p>
           </form>
           <div className="inq-side">
