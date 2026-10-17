@@ -42,7 +42,7 @@ export const EPISODES: Episode[] = [
     items: ["APAC190103002C", "APAC190103002F", "APAC190103002D", "APAC190103002I"], cues: [[0, "APAC190103002C"], [47, "APAC190103002D"], [47, "APAC190103002F"], [59, "APAC190103002I"]] },
   { id: "R", no: 17, title: "전쟁이 끝난 걸 종이로 알렸다", hook: "1945 일미휴전 성립 · 29년을 싸운 군인", file: "16_tj002_shorts_R_v01.mp4", cover: "16_tj002_shorts_R_v01", seconds: 61, vertical: true,
     items: ["APAC211070665B", "APAC200330076"], cues: [[0, "APAC211070665B"], [18, "APAC200330076"]] },
-  { id: "long2", no: 18, title: "선전물 100년 — 종이로 마음을 움직이는 법", hook: "롱폼 2 · 판화에서 휴대폰까지", file: "02_tj002_longform2_v01.mp4", cover: "02_tj002_longform2_v01", seconds: 194, vertical: false,
+  { id: "long2", no: 18, title: "선전물 100년 — 종이로 마음을 움직이는 법", hook: "롱폼 2 · 판화에서 휴대폰까지", file: "02_tj002_longform2_v01.mp4", cover: "02_tj002_longform2_v02", seconds: 194, vertical: false,
     items: ["APKC190903128", "APAC170114003", "APAC240926190", "APAC211070665B", "APAC230216026", "APAC180604114", "APAC200125042", "APKC260411283"], cues: [[14, "APKC190903128"], [45, "APAC170114003"], [66, "APAC240926190"], [88, "APAC211070665B"], [103, "APAC230216026"], [131, "APAC180604114"], [140, "APAC200125042"], [152, "APKC260411283"]], chapters: [[0, "선전물 100년"], [14, "판화로 판 전쟁"], [45, "포스터, 생활을 바꾸다"], [88, "포스터가 날개를 달다"], [111, "똑똑해진 종이"], [131, "다시 벽으로"], [167, "지금은 손바닥 위에"]] },
 ];
 
