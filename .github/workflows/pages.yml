@@ -39,6 +39,8 @@ jobs:
         run: |
           mkdir -p _site/site001-bira
           cp -R site001-bira/dist/* _site/site001-bira/
+          mkdir -p _site/site002-studio
+          cp -R site002-studio/. _site/site002-studio/
           cp landing/index.html _site/index.html
 
       - uses: actions/upload-pages-artifact@v3

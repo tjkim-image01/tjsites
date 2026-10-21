@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102e2d"><title>원화는 한 장 · 삐라상점 스튜디오</title><meta name="description" content="1952년 삐라 원화와 인쇄본. 옥자와 태진의 원본 대화로 만나는 50초 3D 쇼케이스."><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css"><script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script></head>
+<body>
+<header><a class="brand" href="./"><span class="brand-mark">삐</span><span>삐라상점<small>물건에 담긴 이야기</small></span></a><span class="edition">TJ KIM COLLECTION <b>STUDIO / 001</b></span></header>
+<main>
+<div class="intro"><div><p class="eyebrow">THE ORIGINAL SERIES · EP. J</p><h1>인쇄본은 수십억 장,<br class="mobile-break"> <em>원화는 한 장.</em></h1></div><p class="intro-note">1952년, 종이 한 장의 시작을 만나다.<br>옥자와 태진의 50초 소장품 이야기</p></div>
+<div class="show-layout">
+<section class="player" aria-label="3D 홈쇼핑 스튜디오">
+<div id="viewport"><canvas id="stage" aria-label="청록색 스튜디오에 배치된 옥자와 삐라 원화"></canvas>
+<div class="stage-top"><span id="status"><i></i> STUDIO PREVIEW</span><div class="views" aria-label="카메라 시점"><button data-view="auto" aria-pressed="true">자동 연출</button><button data-view="wide" aria-pressed="false">세트 전체</button><button data-view="item" aria-pressed="false">물건 보기</button></div></div>
+<div id="loading" role="status">스튜디오와 소장품을 준비하고 있어요…</div>
+<div id="start-overlay" hidden><button id="start" disabled><span>▶</span><b>이야기 재생</b><small>원본 음성으로 시작 · 50초</small></button></div>
+<div id="voice" hidden><span class="voice-bars" aria-hidden="true">▂ ▆ ▃ ▇</span><span id="voice-name"></span></div>
+<div id="caption" hidden><span id="speaker"></span><p id="subtitle"></p></div>
+<div id="error" role="alert" hidden><p id="error-message"></p><button id="retry">다시 불러오기</button></div>
+</div>
+<div class="transport"><div class="timeline-row"><input id="timeline" type="range" min="0" max="50.29" step="0.01" value="0" aria-label="재생 위치" disabled><span id="time">00:00 / 00:50</span></div><div class="buttons-row"><div class="play-buttons"><button id="play" class="primary" disabled>▶ 재생</button><button id="restart" disabled aria-label="처음부터 재생">↺ <span>처음부터</span></button><span id="chapter">삐라를 손으로 그린 화가</span></div><div class="sound"><button id="mute" aria-label="음소거" aria-pressed="false">소리 켜짐</button><input id="volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="음량"><button id="fullscreen" aria-label="플레이어 전체 화면">⛶</button></div></div></div>
+</section>
+<aside class="item-panel"><div class="item-heading"><span>오늘의 소장품</span><b>NO. 001</b></div><button id="photo-open" aria-label="소장품 사진 크게 보기"><img id="item-photo" src="./assets/item-1.jpg" alt="1952년 삐라 제작을 위한 펜화 원본"><span>사진 크게 보기 ↗</span></button><div class="photo-switch" aria-label="소장품 사진 선택"><button data-photo="1" aria-pressed="true">원화</button><button data-photo="2" aria-pressed="false">상세 1</button><button data-photo="3" aria-pressed="false">상세 2</button><button data-photo="4" aria-pressed="false">상세 3</button></div><p class="eyebrow item-code">APAC241028216A</p><h2>삐라 원화와<br>인쇄본, 두 점.</h2><p class="item-copy">펜으로 그린 한 장의 그림이<br>하늘에서 뿌려질 종이가 되기까지.</p><dl><div><dt>제작연도</dt><dd>1952</dd></div><div><dt>구성</dt><dd>펜화 원본 + 인쇄본</dd></div><div><dt>컬렉션</dt><dd>TJ Kim Collection</dd></div></dl><div class="cast"><span>이번 이야기</span><p><b>옥자</b> 스튜디오 출연</p><p><b>태진</b> 목소리 출연</p></div></aside>
+</div>
+<div class="below"><p><span class="dot"></span> 원본 대화 8개 · 50초 · 3D 스튜디오</p><p>재생 버튼을 누르면 음성과 함께 표정, 동작, 카메라가 이어집니다.</p></div>
+<details class="script"><summary>대화 전문 보기 <span>원본 음성 · J편</span></summary><ol id="transcript"></ol></details>
+</main><footer><span>삐라상점 × TJ KIM COLLECTION</span><span>물건 하나, 이야기 하나.</span></footer>
+<audio id="audio" preload="auto"></audio>
+<dialog id="photo-dialog"><button id="photo-close" aria-label="사진 닫기">닫기 ×</button><img id="large-photo" alt="소장품 확대 사진"></dialog>
+<script type="module" src="./app.js"></script></body></html>

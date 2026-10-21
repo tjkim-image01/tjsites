@@ -5,3 +5,5 @@
 ## 사이트 목록
 
 - [`site001-bira/`](site001-bira/) — **삐라 상점** (`https://tjkim-image01.github.io/tjsites/site001-bira/`)
+
+- [`site002-studio/`](site002-studio/) — **삐라 3D 홈쇼핑 스튜디오** (`https://tjkim-image01.github.io/tjsites/site002-studio/`)
